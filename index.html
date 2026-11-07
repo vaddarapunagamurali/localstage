@@ -1,86 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Discover local festivals, events and performance opportunities.">
-  <title>LocalStage — Discover. Participate. Perform.</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LocalStage – Book Local Performers for Your Event</title>
+<meta name="description" content="Discover and book local DJs, bands, singers, dancers and anchors in Ongole and Nellore.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#"><span class="brand-mark">LS</span><span>LocalStage</span></a>
-    <nav><a href="#events">Explore events</a><a href="#how-it-works">How it works</a></nav>
-    <a class="organizer-link" href="#organizer">For organizers ↗</a>
-  </header>
+<header class="nav">
+  <a class="logo" href="#top"><span class="logo-mark">L</span>LocalStage</a>
+  <nav>
+    <a href="#categories">Categories</a>
+    <a href="#performers">Performers</a>
+    <a href="#how">How it works</a>
+    <a href="#bookings" class="nav-cta">My bookings <span id="navCount" class="pill" hidden>0</span></a>
+  </nav>
+</header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">YOUR TOWN. YOUR STAGE.</p>
-        <h1>Find your next<br><span>chance to shine.</span></h1>
-        <p class="hero-text">Discover festivals, cultural programs and performance opportunities near you. Check dates, see availability and connect with organizers — without running around or making endless calls.</p>
-        <a class="primary-btn" href="#events">Explore opportunities <span>→</span></a>
-        <div class="hero-note"><span class="live-dot"></span> Local events and opportunities in one place</div>
-      </div>
-      <div class="hero-art" aria-label="Illustration of a live stage">
-        <div class="sun"></div><div class="stage-light light-one"></div><div class="stage-light light-two"></div>
-        <div class="art-card"><span class="art-tag">OPEN CALL</span><div class="art-stars">✦ ✧ ✦</div><div class="art-title">YOUR<br>PERFORMANCE<br>STARTS HERE</div><div class="art-footer">DANCE · MUSIC · CULTURE</div></div>
-        <div class="art-caption">Every community has a stage.</div>
-      </div>
-    </section>
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <h1>Book the right performer for your event, in minutes.</h1>
+    <p class="lead">LocalStage connects event organizers with trusted DJs, bands, singers, dancers and anchors from Ongole, Nellore and nearby towns.</p>
+    <form class="searchbar" id="heroSearch">
+      <label>Performer type
+        <select id="heroCat"></select>
+      </label>
+      <label>City
+        <select id="heroCity"><option>All cities</option><option>Ongole</option><option>Nellore</option></select>
+      </label>
+      <button class="btn gold" type="submit">Find performers</button>
+    </form>
+    <ul class="stats">
+      <li><strong>12+</strong> verified performers</li>
+      <li><strong>2</strong> cities covered</li>
+      <li><strong>Free</strong> to send requests</li>
+    </ul>
+  </div>
+</section>
 
-    <section class="search-panel" id="events">
-      <div class="section-heading">
-        <div><p class="eyebrow">DISCOVER WHAT'S HAPPENING</p><h2>Find an opportunity</h2></div>
-        <span class="result-count" id="resultCount">Loading events…</span>
+<main>
+  <section id="categories" class="block">
+    <h2>Browse by category</h2>
+    <div id="catTiles" class="tiles"></div>
+  </section>
+
+  <section id="performers" class="block">
+    <div class="block-head">
+      <div>
+        <h2>Local performers</h2>
+        <p id="count" class="muted"></p>
       </div>
-      <div class="filters">
-        <label class="search-field"><span>⌕</span><input id="searchInput" type="search" placeholder="Search event, village, city…"></label>
-        <select id="cityFilter" aria-label="Filter by city"><option value="">All locations</option></select>
-        <select id="categoryFilter" aria-label="Filter by category">
-          <option value="">All categories</option><option>Dance</option><option>Singing</option><option>Drama</option><option>Music</option><option>Festival</option><option>Stall</option>
+      <div class="tools">
+        <input id="search" type="search" placeholder="Search by name" aria-label="Search by name">
+        <select id="sort" aria-label="Sort">
+          <option value="rating">Top rated</option>
+          <option value="low">Price: low to high</option>
+          <option value="high">Price: high to low</option>
         </select>
-        <select id="statusFilter" aria-label="Filter by registration status">
-          <option value="">All registration statuses</option><option value="Open">Open</option><option value="Almost full">Almost full</option><option value="Full">Full</option><option value="Upcoming">Upcoming</option>
-        </select>
       </div>
-      <div class="event-grid" id="eventGrid" aria-live="polite"></div>
-      <div class="empty-state hidden" id="emptyState"><div>✦</div><h3>No matching events</h3><p>Try another location, category or search term.</p><button class="secondary-btn" id="clearFilters">Clear filters</button></div>
-    </section>
+    </div>
+    <div id="chips" class="chips"></div>
+    <div id="grid" class="grid"></div>
+  </section>
 
-    <section class="how-section" id="how-it-works">
-      <p class="eyebrow">SIMPLE FOR EVERYONE</p><h2>From discovery to your big moment.</h2>
-      <div class="steps">
-        <article><span class="step-number">01</span><div class="step-icon">⌕</div><h3>Discover</h3><p>Find local events by place, date or the kind of performance you want to give.</p></article>
-        <article><span class="step-number">02</span><div class="step-icon">▦</div><h3>Check availability</h3><p>See whether registration is open, full or opening on a future date.</p></article>
-        <article><span class="step-number">03</span><div class="step-icon">✉</div><h3>Connect & apply</h3><p>Send your details to the organizer and track your request.</p></article>
+  <section id="how" class="block alt">
+    <h2>How it works</h2>
+    <ol class="steps">
+      <li><h3>Search</h3><p>Filter by performer type, city and budget to see who fits your event.</p></li>
+      <li><h3>Request</h3><p>Pick a date and send a booking request with your event details.</p></li>
+      <li><h3>Confirm</h3><p>Track every request in My bookings and cancel any time before the event.</p></li>
+    </ol>
+  </section>
+
+  <section id="bookings" class="block">
+    <h2>My bookings</h2>
+    <div id="bookingList"></div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="logo"><span class="logo-mark">L</span>LocalStage</div>
+  <p>Local talent discovery and event booking for Ongole and Nellore.</p>
+</footer>
+
+<div id="modal" class="modal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mName">
+    <button id="closeBtn" class="close" aria-label="Close">&times;</button>
+    <div class="m-head">
+      <div id="mAvatar" class="avatar big"></div>
+      <div><h3 id="mName"></h3><p id="mMeta" class="muted"></p></div>
+    </div>
+    <p id="mBio"></p>
+    <div id="mBooked" class="booked"></div>
+    <form id="bookForm">
+      <label>Your name<input name="organizer" required></label>
+      <label>Phone number<input name="phone" type="tel" inputmode="numeric" maxlength="10" pattern="[0-9]{10}" title="Enter a 10-digit phone number" placeholder="10-digit mobile number" required></label>
+      <div class="row">
+        <label>Event type
+          <select name="eventType" required>
+            <option value="">Choose</option><option>Wedding</option><option>Birthday party</option><option>Festival</option><option>College fest</option><option>Corporate event</option>
+          </select>
+        </label>
+        <label>Event date<input name="date" type="date" required></label>
       </div>
-    </section>
-
-    <section class="organizer-section" id="organizer">
-      <div><p class="eyebrow">HOSTING AN EVENT?</p><h2>Put your event<br>on the local map.</h2><p>Organizers can share event details, publish registration dates and let people know which opportunities are available.</p></div>
-      <form id="organizerForm" class="organizer-form">
-        <h3>List a sample event</h3>
-        <p class="form-hint">This demo saves events in this browser only.</p>
-        <label>Event name<input name="name" required placeholder="e.g. Village Cultural Night"></label>
-        <div class="form-row"><label>City / village<input name="city" required placeholder="e.g. Ongole"></label><label>Category<select name="category"><option>Dance</option><option>Singing</option><option>Drama</option><option>Music</option><option>Festival</option><option>Stall</option></select></label></div>
-        <div class="form-row"><label>Event date<input name="date" type="date" required></label><label>Registration closes<input name="deadline" type="date" required></label></div>
-        <label>Organizer contact<input name="contact" required placeholder="Phone number or email"></label>
-        <label>Available slots<input name="slots" type="number" min="1" value="5" required></label>
-        <button class="primary-btn full-btn" type="submit">Add event to demo <span>→</span></button>
-        <p class="form-message" id="formMessage" role="status"></p>
-      </form>
-    </section>
-  </main>
-
-  <footer><a class="brand footer-brand" href="#"><span class="brand-mark">LS</span><span>LocalStage</span></a><span>Helping local talent find a stage.</span><span>Demo prototype · Not a live booking service</span></footer>
-
-  <dialog id="eventDialog" class="event-dialog">
-    <button class="dialog-close" id="closeDialog" aria-label="Close">×</button>
-    <div id="dialogContent"></div>
-  </dialog>
-  <div class="toast" id="toast" role="status"></div>
-  <script src="script.js"></script>
+      <button type="submit" class="btn primary">Send booking request</button>
+      <p id="formMsg" class="formMsg" role="status"></p>
+    </form>
+  </div>
+</div>
+<div id="toast" class="toast" role="status"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="script.js"></script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 // ===== 1. Paste your Supabase details here =====
-const SUPABASE_URL = "YOUR_SUPABASE_URL";
-const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY";
+const SUPABASE_URL = "https://daqthfssgembnvjfdvqn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_bkHf8-BjRczZ_UHAv6REfA_ASoJxTa2";
 const online = !SUPABASE_URL.includes("YOUR_") && typeof supabase !== "undefined";
 const db = online ? supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
